@@ -25,11 +25,6 @@ export default function MediaPage() {
       title: "Arba Minch Youth Training Hall",
       caption: "Our makeshift training shed where more than 80 youth practice daily.",
     },
-    {
-      src: "/images/tesfahun_director.jpg",
-      title: "Founder & Director Tesfahun Mergia",
-      caption: "Leading gymnastics training and child protection in Arba Minch since 2011.",
-    },
   ];
 
   return (

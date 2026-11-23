@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { GraduationCap, Shield, Award, Users, HeartHandshake, Calendar, Phone, Mail, ArrowRight } from "lucide-react";
@@ -36,14 +35,14 @@ export default function FounderPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Visual Portrait */}
             <div className="lg:col-span-5 bg-[#17251F] text-[#F7F3EA] rounded-2xl overflow-hidden border border-[#D6A84F]/40 shadow-xl sticky top-28">
-              <div className="relative h-96 w-full bg-[#0E1814]">
-                <Image
-                  src="/images/tesfahun_director.jpg"
-                  alt="Tesfahun Mergia, Founder & Director of AMEPAC"
-                  fill
-                  className="object-cover object-top"
-                  priority
-                />
+              <div className="py-14 px-6 bg-gradient-to-br from-[#17251F] via-[#0E1814] to-[#23382F] flex flex-col items-center justify-center text-center border-b border-[#23382F]">
+                <div className="w-28 h-28 rounded-full bg-[#C64B24] border-2 border-[#D6A84F] flex items-center justify-center text-[#F7F3EA] font-extrabold text-3xl shadow-xl mb-3">
+                  TM
+                </div>
+                <span className="text-xs font-bold text-[#D6A84F] uppercase tracking-wider px-3 py-1 rounded bg-[#23382F] border border-[#D6A84F]/30">
+                  Founder & Executive Director
+                </span>
+                <p className="text-xs text-[#F7F3EA]/60 mt-2">Leading AMEPAC in Arba Minch since 2011</p>
               </div>
               <div className="p-6 space-y-4">
                 <div>

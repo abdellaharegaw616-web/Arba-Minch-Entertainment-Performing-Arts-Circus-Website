@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   Shield,
@@ -106,14 +105,13 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Director Bio Card */}
             <div className="lg:col-span-5 bg-[#17251F] text-[#F7F3EA] rounded-xl overflow-hidden shadow-xl border border-[#D6A84F]/30 sticky top-28">
-              <div className="relative h-80 w-full bg-[#0E1814]">
-                <Image
-                  src="/images/tesfahun_director.jpg"
-                  alt="Tesfahun Mergia, Founder & Executive Director of AMEPAC"
-                  fill
-                  className="object-cover object-top"
-                  priority
-                />
+              <div className="py-12 px-6 bg-gradient-to-br from-[#17251F] via-[#0E1814] to-[#23382F] flex flex-col items-center justify-center text-center border-b border-[#23382F]">
+                <div className="w-24 h-24 rounded-full bg-[#C64B24] border-2 border-[#D6A84F] flex items-center justify-center text-[#F7F3EA] font-extrabold text-2xl shadow-lg mb-3">
+                  TM
+                </div>
+                <span className="text-xs font-bold text-[#D6A84F] uppercase tracking-wider px-3 py-1 rounded bg-[#23382F] border border-[#D6A84F]/30">
+                  Founder & Artistic Director
+                </span>
               </div>
               <div className="p-6 space-y-4">
                 <div>
@@ -217,7 +215,7 @@ export default function AboutPage() {
                 </p>
                 <div className="pt-2">
                   <Link
-                    href="/donate"
+                    href="/support"
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-[#C64B24] text-[#F7F3EA] font-semibold text-xs hover:bg-[#A83C1A]"
                   >
                     Learn about the Training Center Building Fund &rarr;

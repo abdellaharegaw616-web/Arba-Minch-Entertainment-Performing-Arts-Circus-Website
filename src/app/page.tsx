@@ -135,14 +135,8 @@ export default async function HomePage() {
                 </div>
 
                 <div className="absolute -bottom-6 -left-4 sm:-left-6 bg-[#0E1814] border border-[#D6A84F]/40 p-3 rounded-lg shadow-xl flex items-center gap-3 max-w-[280px]">
-                  <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-[#D6A84F]">
-                    <Image
-                      src="/images/tesfahun_director.jpg"
-                      alt="Tesfahun Mergia, Founder & Director"
-                      width={48}
-                      height={48}
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="w-12 h-12 rounded-full bg-[#C64B24] text-[#F7F3EA] flex items-center justify-center font-bold text-sm shrink-0 border border-[#D6A84F] shadow">
+                    TM
                   </div>
                   <div className="text-xs">
                     <Link href="/founder" className="font-semibold text-[#D6A84F] hover:underline">

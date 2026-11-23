@@ -2,6 +2,8 @@ import { adminLoginAction } from "@/app/actions";
 import { Lock, Shield, Sparkles } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Admin CMS Login — AMEPAC Arba Minch",
   description: "Restricted administrative access for AMEPAC content and bookings management.",

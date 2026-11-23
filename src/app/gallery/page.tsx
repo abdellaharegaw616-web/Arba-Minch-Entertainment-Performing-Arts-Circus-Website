@@ -27,12 +27,6 @@ const PHOTOS: GalleryPhoto[] = [
     caption: "Daily rehearsal hall in central Arba Minch where more than 80 youth practice on soil floors.",
     category: "Grassroots Training",
   },
-  {
-    src: "/images/tesfahun_director.jpg",
-    title: "Founder Tesfahun Mergia Leading Sessions",
-    caption: "Directing foundational gymnastics coaching and child safeguarding.",
-    category: "Leadership & Coaching",
-  },
 ];
 
 export default function GalleryPage() {

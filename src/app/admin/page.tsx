@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Admin Dashboard & CMS — AMEPAC Arba Minch",
   description: "Manage bookings, events, troupes, and partnership inquiries.",
