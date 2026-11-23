@@ -117,11 +117,14 @@ export default async function TroupesPage() {
 
                     {/* Troupe CTA */}
                     <div className="mt-8 pt-6 border-t border-[#D6A84F]/30 flex flex-wrap items-center justify-between gap-4">
-                      <div className="text-xs text-[#17251F]/70">
-                        Available for festivals, corporate events, and cultural tours.
-                      </div>
                       <Link
-                        href={`/book?troupe=${encodeURIComponent(troupe.name)}`}
+                        href={`/troupes/${troupe.slug}`}
+                        className="text-xs font-bold text-[#17251F] hover:text-[#C64B24] flex items-center gap-1 underline underline-offset-4"
+                      >
+                        Full Troupe Profile & Repertoire &rarr;
+                      </Link>
+                      <Link
+                        href={`/book-us?troupe=${encodeURIComponent(troupe.name)}`}
                         className="px-5 py-2.5 rounded bg-[#C64B24] text-[#F7F3EA] font-semibold text-xs sm:text-sm hover:bg-[#A83C1A] transition-colors flex items-center gap-1.5 shadow"
                       >
                         <Calendar className="w-4 h-4" />

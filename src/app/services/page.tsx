@@ -116,12 +116,20 @@ export default async function ServicesPage() {
                     <p><strong className="text-[#D6A84F]">Customization:</strong> Tailored show length and troupe size</p>
                   </div>
 
-                  <Link
-                    href={`/book?package=${encodeURIComponent(svc.title)}`}
-                    className="w-full text-center block py-3 px-4 rounded bg-[#C64B24] text-[#F7F3EA] font-semibold text-xs hover:bg-[#A83C1A] transition-colors shadow flex items-center justify-center gap-2"
-                  >
-                    <Calendar className="w-4 h-4" /> Book This Package
-                  </Link>
+                  <div className="pt-2 flex flex-col gap-2">
+                    <Link
+                      href={`/services/${svc.slug}`}
+                      className="w-full text-center block py-2 px-4 rounded border border-[#D6A84F] text-[#D6A84F] font-semibold text-xs hover:bg-[#D6A84F] hover:text-[#17251F] transition-colors"
+                    >
+                      View Full Package Page &rarr;
+                    </Link>
+                    <Link
+                      href={`/book-us?package=${encodeURIComponent(svc.title)}`}
+                      className="w-full text-center block py-2.5 px-4 rounded bg-[#C64B24] text-[#F7F3EA] font-semibold text-xs hover:bg-[#A83C1A] transition-colors shadow flex items-center justify-center gap-2"
+                    >
+                      <Calendar className="w-4 h-4" /> Book This Package
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

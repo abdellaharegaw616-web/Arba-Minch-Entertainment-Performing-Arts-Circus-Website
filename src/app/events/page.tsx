@@ -87,12 +87,17 @@ export default async function EventsPage() {
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-[#D6A84F]/30 flex items-center justify-between">
-                  <span className="text-[11px] text-[#17251F]/60">Live Performance</span>
                   <Link
-                    href={`/book?event=${encodeURIComponent(evt.title)}`}
+                    href={`/events/${evt.slug}`}
+                    className="text-xs font-semibold text-[#17251F] hover:text-[#C64B24] underline underline-offset-4"
+                  >
+                    Event Details &rarr;
+                  </Link>
+                  <Link
+                    href={`/book-us?event=${encodeURIComponent(evt.title)}`}
                     className="text-xs font-bold text-[#C64B24] hover:text-[#A83C1A] flex items-center gap-1"
                   >
-                    Inquire for Attendance or VIP <ArrowRight className="w-3.5 h-3.5" />
+                    VIP / Booking Inquiry <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>

@@ -3,6 +3,7 @@ import { SERVICES } from "@/data/services";
 import { EVENTS } from "@/data/events";
 import { HIGHLIGHTS } from "@/data/highlights";
 import { TESTIMONIALS } from "@/data/testimonials";
+import { IMPACT_STORIES, ImpactStory } from "@/data/impact";
 import { BookingFormData, InquiryFormData, Troupe, ServicePackage, EventItem, HighlightItem, TestimonialItem } from "@/types";
 import { createServerSupabaseClient } from "./supabase/server";
 
@@ -140,6 +141,20 @@ export async function getEvents(): Promise<EventItem[]> {
     }
   }
   return EVENTS;
+}
+
+export async function getEventBySlug(slug: string): Promise<EventItem | null> {
+  const events = await getEvents();
+  return events.find((e) => e.slug === slug) || null;
+}
+
+export async function getImpactStories(): Promise<ImpactStory[]> {
+  return IMPACT_STORIES;
+}
+
+export async function getImpactStoryBySlug(slug: string): Promise<ImpactStory | null> {
+  const stories = await getImpactStories();
+  return stories.find((s) => s.slug === slug) || null;
 }
 
 export async function getHighlights(): Promise<HighlightItem[]> {
