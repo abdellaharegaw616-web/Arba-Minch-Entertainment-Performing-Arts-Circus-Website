@@ -44,14 +44,18 @@ export default async function TroupesPage() {
               >
                 <div className={`grid grid-cols-1 lg:grid-cols-12 ${isReversed ? "lg:flex-row-reverse" : ""}`}>
                   {/* Visual Side */}
-                  <div className={`lg:col-span-5 relative min-h-[300px] lg:min-h-full bg-[#17251F] ${isReversed ? "lg:order-2" : ""}`}>
-                    <Image
-                      src={troupe.featuredImage || "/images/circus_performance_1.png"}
-                      alt={`${troupe.name} performing in Arba Minch`}
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute top-4 left-4 px-3 py-1 rounded bg-[#17251F]/90 text-xs font-bold text-[#D6A84F] border border-[#D6A84F]/30">
+                  <div className={`lg:col-span-5 relative min-h-[300px] lg:min-h-[360px] bg-[#17251F] flex flex-col items-center justify-center p-8 ${isReversed ? "lg:order-2" : ""}`}>
+                    <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-4 border-[#D6A84F] shadow-2xl bg-[#0E1814]">
+                      <Image
+                        src={troupe.featuredImage || "/images/circus_performance_1.png"}
+                        alt={`${troupe.name} performing in Arba Minch`}
+                        fill
+                        className="object-cover object-center"
+                        sizes="(max-width: 640px) 192px, 224px"
+                      />
+                    </div>
+                    <div className="mt-4 px-3.5 py-1 rounded-full bg-[#23382F] text-xs font-bold text-[#D6A84F] border border-[#D6A84F]/30 shadow-sm flex items-center gap-1.5">
+                      <Users className="w-3.5 h-3.5 text-[#D6A84F]" />
                       {troupe.membersCount} {troupe.membersCount === 1 ? "Solo Artist" : "Ensemble Members"}
                     </div>
                   </div>

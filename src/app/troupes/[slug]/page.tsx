@@ -133,14 +133,20 @@ export default async function TroupeDetailPage({ params }: TroupeDetailPageProps
 
             {/* Performance Photo */}
             <div className="lg:col-span-5 space-y-4">
-              <div className="relative h-80 sm:h-96 rounded-2xl overflow-hidden border border-[#D6A84F]/40 shadow-xl bg-[#17251F]">
-                <Image
-                  src={troupe.featuredImage || "/images/circus_performance_1.png"}
-                  alt={troupe.name}
-                  fill
-                  className="object-cover"
-                  priority
-                />
+              <div className="relative py-12 px-6 rounded-2xl overflow-hidden border border-[#D6A84F]/40 shadow-xl bg-[#17251F] flex flex-col items-center justify-center">
+                <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden border-4 border-[#D6A84F] shadow-2xl bg-[#0E1814]">
+                  <Image
+                    src={troupe.featuredImage || "/images/circus_performance_1.png"}
+                    alt={troupe.name}
+                    fill
+                    className="object-cover object-center"
+                    priority
+                    sizes="(max-width: 640px) 224px, 256px"
+                  />
+                </div>
+                <span className="mt-4 text-xs font-bold text-[#D6A84F] uppercase tracking-wider">
+                  {troupe.name} Performing Ensemble
+                </span>
               </div>
               <div className="p-4 rounded-xl bg-[#EBE5D6] border border-[#D6A84F]/30 text-xs text-[#17251F]/80">
                 <strong className="text-[#C64B24] block mb-1">Grassroots Athletic Pathway:</strong>

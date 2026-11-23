@@ -22,6 +22,24 @@ const PHOTOS: GalleryPhoto[] = [
     category: "Festival Showcase",
   },
   {
+    src: "/images/troupe_yoga_brothers.png",
+    title: "Arba Minch Yoga Brothers Ensemble Portrait",
+    caption: "Official portrait of the celebrated extreme contortion duo from Arba Minch.",
+    category: "Artist Portraits",
+  },
+  {
+    src: "/images/troupe_gamo_bayira.png",
+    title: "Troupe Gamo Bayira Artist Portrait",
+    caption: "Official portrait of Troupe Gamo Bayira professional acrobat.",
+    category: "Artist Portraits",
+  },
+  {
+    src: "/images/troupe_black_lioness.png",
+    title: "Troupe Black Lioness Artist Portrait",
+    caption: "Official portrait of Troupe Black Lioness all-female balance and antipode artist.",
+    category: "Artist Portraits",
+  },
+  {
     src: "/images/circus_facility_3.png",
     title: "Arba Minch Training Ground & Hall",
     caption: "Daily rehearsal hall in central Arba Minch where more than 80 youth practice on soil floors.",

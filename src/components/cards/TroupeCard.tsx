@@ -5,37 +5,41 @@ import { ArrowRight, Users, Sparkles } from "lucide-react";
 
 export function TroupeCard({ troupe }: { troupe: Troupe }) {
   return (
-    <div className="bg-[#EBE5D6] rounded-xl border border-[#D6A84F]/40 overflow-hidden flex flex-col justify-between hover:border-[#C64B24] hover:shadow-lg transition-all group">
-      <div className="relative h-48 bg-[#17251F] overflow-hidden">
-        <Image
-          src={troupe.featuredImage || "/images/circus_performance_1.png"}
-          alt={`${troupe.name} performing live`}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-        />
-        <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded bg-[#17251F]/90 text-[11px] text-[#D6A84F] border border-[#D6A84F]/30 font-semibold flex items-center gap-1">
-          <Users className="w-3 h-3" />
-          {troupe.membersCount} {troupe.membersCount === 1 ? "Artist" : "Artists"}
+    <div className="bg-[#EBE5D6] rounded-2xl border border-[#D6A84F]/40 overflow-hidden flex flex-col justify-between hover:border-[#C64B24] hover:shadow-xl transition-all duration-300 group">
+      {/* Circular Portrait Presentation */}
+      <div className="pt-6 pb-2 px-6 flex flex-col items-center bg-gradient-to-b from-[#17251F]/5 to-transparent">
+        <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-[#D6A84F] shadow-lg bg-[#17251F] group-hover:scale-105 group-hover:border-[#C64B24] transition-all duration-300">
+          <Image
+            src={troupe.featuredImage || "/images/circus_performance_1.png"}
+            alt={`${troupe.name} portrait`}
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 640px) 144px, 144px"
+          />
+        </div>
+        <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#17251F] text-[11px] font-semibold text-[#D6A84F] border border-[#D6A84F]/30 shadow-xs">
+          <Users className="w-3 h-3 text-[#D6A84F]" />
+          {troupe.membersCount} {troupe.membersCount === 1 ? "Solo Artist" : "Artists"}
         </div>
       </div>
 
-      <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+      <div className="p-5 pt-2 flex-1 flex flex-col justify-between space-y-4 text-center">
         <div>
-          <h3 className="font-bold text-lg text-[#17251F] group-hover:text-[#C64B24] transition-colors">
+          <h3 className="font-extrabold text-lg text-[#17251F] group-hover:text-[#C64B24] transition-colors">
             <Link href={`/troupes/${troupe.slug}`} className="focus:outline-none">
               {troupe.name}
             </Link>
           </h3>
           {troupe.subTitle && (
-            <p className="text-xs font-semibold text-[#B88C35] mt-0.5">
+            <p className="text-xs font-semibold text-[#B88C35] mt-1">
               {troupe.subTitle}
             </p>
           )}
-          <p className="text-xs text-[#17251F]/80 mt-2 line-clamp-3 leading-relaxed">
+          <p className="text-xs text-[#17251F]/80 mt-2.5 line-clamp-3 leading-relaxed">
             {troupe.description}
           </p>
 
-          <div className="mt-3 flex flex-wrap gap-1.5">
+          <div className="mt-3.5 flex flex-wrap justify-center gap-1.5">
             {troupe.acts.slice(0, 3).map((act) => (
               <span
                 key={act}
@@ -47,7 +51,7 @@ export function TroupeCard({ troupe }: { troupe: Troupe }) {
           </div>
         </div>
 
-        <div className="pt-3 border-t border-[#D6A84F]/30 flex items-center justify-between text-xs">
+        <div className="pt-3.5 border-t border-[#D6A84F]/30 flex items-center justify-between text-xs">
           <Link
             href={`/book-us?troupe=${encodeURIComponent(troupe.name)}`}
             className="text-[11px] font-semibold text-[#17251F] hover:text-[#C64B24]"

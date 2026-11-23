@@ -21,6 +21,21 @@ export default function MediaPage() {
       caption: "Acrobatic human pyramid and Chinese pole feats.",
     },
     {
+      src: "/images/troupe_yoga_brothers.png",
+      title: "Arba Minch Yoga Brothers Duo",
+      caption: "Extreme contortion and hyper-flexibility performers.",
+    },
+    {
+      src: "/images/troupe_gamo_bayira.png",
+      title: "Troupe Gamo Bayira Ensemble",
+      caption: "Precision acrobats and object manipulation artists.",
+    },
+    {
+      src: "/images/troupe_black_lioness.png",
+      title: "Troupe Black Lioness Artists",
+      caption: "All-female powerhouse balance and antipode troupe.",
+    },
+    {
       src: "/images/circus_facility_3.png",
       title: "Arba Minch Youth Training Hall",
       caption: "Our makeshift training shed where more than 80 youth practice daily.",

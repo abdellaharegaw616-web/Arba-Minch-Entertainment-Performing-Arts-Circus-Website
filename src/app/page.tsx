@@ -40,7 +40,7 @@ export default async function HomePage() {
     ]);
 
   const upcomingEvents = events.filter((e) => e.isUpcoming).slice(0, 3);
-  const featuredTroupes = troupes.slice(0, 4);
+  const featuredTroupes = troupes;
   const featuredServices = services.slice(0, 6);
   const keyHighlights = highlights.slice(0, 4);
   const keyStories = impactStories.slice(0, 3);
@@ -280,7 +280,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {featuredTroupes.map((troupe) => (
               <TroupeCard key={troupe.id} troupe={troupe} />
             ))}
