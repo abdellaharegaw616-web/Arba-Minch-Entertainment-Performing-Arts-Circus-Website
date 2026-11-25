@@ -512,7 +512,7 @@ export default async function HomePage() {
               { src: "/images/circus_performance_1.png", title: "Banquine Tosses", cat: "Troupe African Pride" },
               { src: "/images/circus_performance_2.png", title: "Chinese Pole", cat: "Troupe Gamo Bayira" },
               { src: "/images/circus_facility_3.png", title: "Training Ground", cat: "Arba Minch Hall" },
-              { src: "/images/tesfahun_director.jpg", title: "Director Coaching", cat: "Tesfahun Mergia" },
+              { src: "/images/troupe_black_lioness.png", title: "Antipode & Balance", cat: "Troupe Black Lioness" },
             ].map((img, i) => (
               <Link
                 key={i}

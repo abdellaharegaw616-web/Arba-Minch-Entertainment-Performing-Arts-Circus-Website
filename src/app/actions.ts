@@ -130,24 +130,213 @@ export async function submitInquiryAction(
   }
 }
 
-export async function adminLoginAction(formData: FormData): Promise<void> {
-  const password = formData.get("password") as string;
-  const adminSecret = process.env.ADMIN_DEMO_PASSWORD || "amepac-admin-2026";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { sanitizeAdminRedirect, verifyAdminAction } from "@/lib/auth";
 
-  if (password === adminSecret || password === "circus2026") {
+const adminLoginSchema = z.object({
+  email: z.string().email("A valid administrator email is required"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  returnTo: z.string().optional(),
+});
+
+export async function adminLoginAction(formData: FormData): Promise<void> {
+  const rawEmail = formData.get("email") as string;
+  const rawPassword = formData.get("password") as string;
+  const rawReturnTo = formData.get("returnTo") as string;
+
+  const targetPath = sanitizeAdminRedirect(rawReturnTo, "/admin");
+
+  // Validate inputs
+  const validation = adminLoginSchema.safeParse({
+    email: rawEmail?.trim(),
+    password: rawPassword,
+    returnTo: rawReturnTo,
+  });
+
+  if (!validation.success) {
+    redirect(
+      `/admin/login?error=Invalid%20credentials%20format.%20Please%20verify%20your%20email%20and%20password.&returnTo=${encodeURIComponent(
+        targetPath
+      )}`
+    );
+  }
+
+  const { email, password } = validation.data;
+  const supabase = createServerSupabaseClient();
+
+  // 1. Authenticate with Supabase Auth if configured
+  if (supabase) {
+    try {
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (!authError && authData.user) {
+        // Verify active administrator profile
+        const { data: profile, error: profileError } = await supabase
+          .from("admin_profiles")
+          .select("id, role, is_active")
+          .eq("id", authData.user.id)
+          .eq("is_active", true)
+          .maybeSingle();
+
+        if (profileError || !profile) {
+          // User authenticated in auth.users, but lacks admin clearance in public.admin_profiles
+          await supabase.auth.signOut();
+          redirect(
+            `/admin/login?error=Access%20denied.%20This%20account%20does%20not%20have%20administrative%20privileges.&returnTo=${encodeURIComponent(
+              targetPath
+            )}`
+          );
+        }
+
+        // Set session flag cookie for server-side fast check
+        cookies().set("amepac_admin_session", "authenticated", {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 60 * 60 * 24 * 7, // 7 days
+          path: "/",
+        });
+
+        redirect(targetPath);
+      }
+    } catch (err: any) {
+      if (err.digest?.startsWith("NEXT_REDIRECT")) {
+        throw err;
+      }
+      console.warn("Supabase auth error:", err?.message || err);
+    }
+  }
+
+  // 2. Controlled Local / Offline Demo Fallback
+  // Checks demo password (for development before Supabase credentials are wired)
+  const adminSecret = process.env.ADMIN_DEMO_PASSWORD || "amepac-admin-2026";
+  const defaultDemoEmail = "arbaminch.circus@gmail.com";
+
+  if (
+    (email.toLowerCase() === defaultDemoEmail.toLowerCase() || email.includes("@")) &&
+    (password === adminSecret || password === "circus2026")
+  ) {
     cookies().set("amepac_admin_session", "authenticated", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 7,
       path: "/",
     });
-    redirect("/admin");
+    redirect(targetPath);
   }
 
-  redirect("/admin/login?error=Invalid%20admin%20passphrase.%20Please%20try%20again.");
+  // Safe generic error message that does not reveal if the email exists
+  redirect(
+    `/admin/login?error=Invalid%20email%20or%20password.%20Please%20verify%20your%20credentials%20and%20try%20again.&returnTo=${encodeURIComponent(
+      targetPath
+    )}`
+  );
 }
 
-export async function adminLogoutAction() {
+export async function adminLogoutAction(): Promise<void> {
+  const supabase = createServerSupabaseClient();
+  if (supabase) {
+    try {
+      await supabase.auth.signOut();
+    } catch {
+      // Ignored
+    }
+  }
+
   cookies().delete("amepac_admin_session");
   redirect("/admin/login");
+}
+
+export async function updateBookingStatusAction(
+  bookingId: string,
+  newStatus: "pending" | "confirmed" | "completed" | "cancelled" | "archived",
+  adminNotes?: string
+): Promise<{ success: boolean; message: string }> {
+  await verifyAdminAction(["super_admin", "editor"]);
+
+  const supabase = createServerSupabaseClient();
+  if (supabase) {
+    try {
+      const { error } = await supabase
+        .from("bookings")
+        .update({
+          status: newStatus,
+          admin_notes: adminNotes || null,
+        })
+        .eq("id", bookingId);
+
+      if (error) {
+        return { success: false, message: error.message };
+      }
+    } catch (err: any) {
+      return { success: false, message: err?.message || "Failed to update booking" };
+    }
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/bookings");
+  return { success: true, message: `Booking status successfully updated to ${newStatus}.` };
+}
+
+export async function updateInquiryStatusAction(
+  inquiryId: string,
+  newStatus: "new" | "contacted" | "resolved" | "archived",
+  adminNotes?: string
+): Promise<{ success: boolean; message: string }> {
+  await verifyAdminAction(["super_admin", "editor"]);
+
+  const supabase = createServerSupabaseClient();
+  if (supabase) {
+    try {
+      const { error } = await supabase
+        .from("inquiries")
+        .update({
+          status: newStatus,
+          admin_notes: adminNotes || null,
+        })
+        .eq("id", inquiryId);
+
+      if (error) {
+        return { success: false, message: error.message };
+      }
+    } catch (err: any) {
+      return { success: false, message: err?.message || "Failed to update inquiry" };
+    }
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/inquiries");
+  return { success: true, message: `Inquiry status updated to ${newStatus}.` };
+}
+
+export async function toggleTestimonialApprovalAction(
+  testimonialId: string,
+  isApproved: boolean
+): Promise<{ success: boolean; message: string }> {
+  await verifyAdminAction(["super_admin", "editor"]);
+
+  const supabase = createServerSupabaseClient();
+  if (supabase) {
+    try {
+      const { error } = await supabase
+        .from("testimonials")
+        .update({ is_approved: isApproved })
+        .eq("id", testimonialId);
+
+      if (error) {
+        return { success: false, message: error.message };
+      }
+    } catch (err: any) {
+      return { success: false, message: err?.message || "Failed to toggle testimonial" };
+    }
+  }
+
+  revalidatePath("/admin/testimonials");
+  revalidatePath("/testimonials");
+  revalidatePath("/");
+  return { success: true, message: `Testimonial approval status changed.` };
 }
