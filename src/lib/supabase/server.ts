@@ -32,3 +32,33 @@ export function createServerSupabaseClient() {
     return null;
   }
 }
+
+/**
+ * Privileged server-side client using the Service Role Key.
+ * NEVER exposed to the browser. Used exclusively for authorized background/admin tasks.
+ */
+export function createAdminSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    return null;
+  }
+
+  try {
+    return createServerClient(supabaseUrl, serviceRoleKey, {
+      cookies: {
+        getAll() {
+          return [];
+        },
+        setAll() {},
+      },
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+    });
+  } catch {
+    return null;
+  }
+}

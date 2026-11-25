@@ -5,7 +5,7 @@ import { HIGHLIGHTS } from "@/data/highlights";
 import { TESTIMONIALS } from "@/data/testimonials";
 import { IMPACT_STORIES, ImpactStory } from "@/data/impact";
 import { BookingFormData, InquiryFormData, Troupe, ServicePackage, EventItem, HighlightItem, TestimonialItem } from "@/types";
-import { createServerSupabaseClient } from "./supabase/server";
+import { createServerSupabaseClient, createAdminSupabaseClient } from "./supabase/server";
 
 // In-memory persistent store for development & seamless fallback
 const inMemoryBookings: Array<BookingFormData & { id: string; status: string; createdAt: string }> = [
@@ -149,6 +149,34 @@ export async function getEventBySlug(slug: string): Promise<EventItem | null> {
 }
 
 export async function getImpactStories(): Promise<ImpactStory[]> {
+  const supabase = createServerSupabaseClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("impact_stories")
+        .select("*")
+        .eq("is_published", true)
+        .order("order_index", { ascending: true });
+      if (!error && data && data.length > 0) {
+        return data.map((story: any) => ({
+          id: story.id,
+          slug: story.slug,
+          title: story.title,
+          category: story.category,
+          subtitle: story.subtitle,
+          heroImage: story.hero_image,
+          summary: story.summary,
+          body: story.body || [],
+          keyOutcomes: story.key_outcomes || [],
+          quote: story.quote_text
+            ? { text: story.quote_text, author: story.quote_author || "AMEPAC Leadership" }
+            : undefined,
+        }));
+      }
+    } catch {
+      // Fallback
+    }
+  }
   return IMPACT_STORIES;
 }
 
@@ -275,7 +303,7 @@ export async function saveInquiry(inquiry: InquiryFormData) {
 }
 
 export async function getAllBookingsForAdmin() {
-  const supabase = createServerSupabaseClient();
+  const supabase = createAdminSupabaseClient() || createServerSupabaseClient();
   if (supabase) {
     try {
       const { data, error } = await supabase.from("bookings").select("*").order("created_at", { ascending: false });
@@ -304,7 +332,7 @@ export async function getAllBookingsForAdmin() {
 }
 
 export async function getAllInquiriesForAdmin() {
-  const supabase = createServerSupabaseClient();
+  const supabase = createAdminSupabaseClient() || createServerSupabaseClient();
   if (supabase) {
     try {
       const { data, error } = await supabase.from("inquiries").select("*").order("created_at", { ascending: false });
