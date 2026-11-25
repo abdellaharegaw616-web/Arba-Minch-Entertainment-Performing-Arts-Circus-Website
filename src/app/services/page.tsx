@@ -94,6 +94,25 @@ export default async function ServicesPage() {
                       ))}
                     </div>
                   </div>
+
+                  {/* Formats where available */}
+                  {svc.suitableFormats && svc.suitableFormats.length > 0 && (
+                    <div className="pt-2">
+                      <span className="text-[11px] font-bold text-[#17251F] uppercase tracking-wider block mb-1">
+                        Suitable Formats:
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {svc.suitableFormats.map((fmt, fIdx) => (
+                          <span
+                            key={fIdx}
+                            className="px-2 py-0.5 rounded bg-[#F7F3EA] text-[11px] text-[#17251F] border border-[#D6A84F]/30"
+                          >
+                            {fmt}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Right side booking card */}

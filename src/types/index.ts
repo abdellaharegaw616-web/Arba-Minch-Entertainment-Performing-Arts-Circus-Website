@@ -11,6 +11,9 @@ export interface Troupe {
   featured?: boolean;
   isPublished?: boolean;
   orderIndex?: number;
+  relatedServiceIds?: string[];
+  reviewNotice?: string;
+  unconfirmedNotice?: string;
 }
 
 export interface Artist {
@@ -48,6 +51,10 @@ export interface ServicePackage {
   imageUrl?: string;
   isPublished?: boolean;
   orderIndex?: number;
+  suitableFormats?: string[];
+  relatedTroupeIds?: string[];
+  aliases?: string[];
+  isPlaceholderImage?: boolean;
 }
 
 export interface EventItem {

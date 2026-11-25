@@ -75,6 +75,12 @@ export default async function TroupesPage() {
                             {troupe.subTitle}
                           </p>
                         )}
+                        {troupe.reviewNotice && (
+                          <div className="mt-2 p-2.5 rounded-lg bg-[#D6A84F]/15 border border-[#D6A84F]/40 text-[11px] text-[#17251F] leading-tight">
+                            <strong className="text-[#C64B24]">Client Review Note: </strong>
+                            <span>{troupe.reviewNotice}</span>
+                          </div>
+                        )}
                       </div>
 
                       <p className="text-xs sm:text-sm text-[#17251F]/85 leading-relaxed">
