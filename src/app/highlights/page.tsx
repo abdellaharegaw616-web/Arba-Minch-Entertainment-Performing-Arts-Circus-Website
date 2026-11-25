@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getHighlights } from "@/lib/data-store";
-import { Award, Trophy, Globe, GraduationCap, Building2, Calendar, ArrowRight } from "lucide-react";
+import { Award, Trophy, Globe, GraduationCap, Building2, Calendar, ArrowRight, AlertCircle, ShieldCheck } from "lucide-react";
+import { CallToAction } from "@/components/ui/CallToAction";
 
 export const metadata = {
   title: "5-Year Highlights & Milestones — AMEPAC Arba Minch",
@@ -13,7 +14,7 @@ export default async function HighlightsPage() {
   const highlights = await getHighlights();
 
   return (
-    <div className="bg-[#F7F3EA] text-[#17251F]">
+    <div className="bg-[#F7F3EA] text-[#17251F] min-h-screen">
       {/* Header Banner */}
       <section className="bg-[#17251F] text-[#F7F3EA] py-16 border-b border-[#23382F]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,6 +32,21 @@ export default async function HighlightsPage() {
         </div>
       </section>
 
+      {/* Reporting Period Verification Notice */}
+      <section className="bg-[#D6A84F]/10 border-b border-[#D6A84F]/30 py-3.5">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-start gap-3 text-xs text-[#17251F]">
+            <AlertCircle className="w-4 h-4 text-[#C64B24] shrink-0 mt-0.5" />
+            <div>
+              <strong className="font-bold text-[#C64B24]">Reporting Period Notice: </strong>
+              <span>
+                Milestones documented below represent our verified development cycle (2020–2024). The exact five-year reporting window is maintained under continuous client review.
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Timeline Section */}
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -39,16 +55,17 @@ export default async function HighlightsPage() {
             return (
               <div
                 key={hl.id}
-                className="bg-[#EBE5D6] rounded-xl border border-[#D6A84F]/40 overflow-hidden shadow-sm hover:border-[#C64B24] transition-all"
+                className="bg-[#EBE5D6] rounded-2xl border border-[#D6A84F]/40 overflow-hidden shadow-sm hover:border-[#C64B24] transition-all"
               >
                 <div className={`grid grid-cols-1 md:grid-cols-12 ${isReversed ? "md:flex-row-reverse" : ""}`}>
                   {/* Photo Side */}
-                  <div className={`md:col-span-5 relative min-h-[220px] md:min-h-full bg-[#17251F] ${isReversed ? "md:order-2" : ""}`}>
+                  <div className={`md:col-span-5 relative min-h-[240px] md:min-h-full bg-[#17251F] ${isReversed ? "md:order-2" : ""}`}>
                     <Image
                       src={hl.imageUrl || "/images/circus_performance_1.png"}
                       alt={hl.title}
                       fill
                       className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 400px"
                     />
                     <div className="absolute top-3 left-3 px-3 py-1 rounded bg-[#0E1814]/90 text-[#D6A84F] text-xs font-extrabold border border-[#D6A84F]/30">
                       {hl.year}
@@ -69,7 +86,7 @@ export default async function HighlightsPage() {
                       </p>
                     </div>
 
-                    <div className="mt-6 pt-4 border-t border-[#D6A84F]/20 flex items-center justify-between text-xs text-[#17251F]/60">
+                    <div className="mt-6 pt-4 border-t border-[#D6A84F]/20 flex items-center justify-between text-xs text-[#17251F]/70">
                       <span>Documented Milestone &check;</span>
                       <span className="font-semibold text-[#C64B24]">Arba Minch PAC</span>
                     </div>
@@ -92,7 +109,7 @@ export default async function HighlightsPage() {
                 Meet the Troupes
               </Link>
               <Link
-                href="/book"
+                href="/book-us"
                 className="px-6 py-2.5 rounded bg-[#C64B24] text-[#F7F3EA] text-xs font-semibold hover:bg-[#A83C1A] transition-colors"
               >
                 Book a Performance
@@ -101,6 +118,8 @@ export default async function HighlightsPage() {
           </div>
         </div>
       </section>
+
+      <CallToAction />
     </div>
   );
 }

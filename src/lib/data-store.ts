@@ -297,8 +297,8 @@ let inMemoryGallery: GalleryAsset[] = [
     id: "gal-1",
     assetType: "image",
     title: "Troupe African Pride Banquine Formation",
-    caption: "Senior acrobats executing synchronized banquine launches and multi-tier pyramids.",
-    category: "Main Stage Performance",
+    caption: "Senior acrobats executing synchronized banquine launches and multi-tier pyramids in Arba Minch.",
+    category: "Performances",
     mediaUrl: "/images/circus_performance_1.png",
     orderIndex: 1,
     isFeatured: true,
@@ -308,8 +308,8 @@ let inMemoryGallery: GalleryAsset[] = [
     id: "gal-2",
     assetType: "image",
     title: "Troupe Gamo Bayira Chinese Pole & Balance",
-    caption: "Acrobatic human flags and synchronized cube manipulation.",
-    category: "Festival Showcase",
+    caption: "High-altitude Chinese pole vertical human flags and synchronized cube manipulation.",
+    category: "Performances",
     mediaUrl: "/images/circus_performance_2.png",
     orderIndex: 2,
     isFeatured: true,
@@ -317,32 +317,32 @@ let inMemoryGallery: GalleryAsset[] = [
   },
   {
     id: "gal-3",
-    assetType: "image",
-    title: "Arba Minch Training Ground & Hall",
-    caption: "Daily rehearsal hall in central Arba Minch where more than 80 youth practice on soil floors.",
-    category: "Grassroots Training",
-    mediaUrl: "/images/circus_facility_3.png",
+    assetType: "video",
+    title: "Arba Minch Circus Acrobatics & Social Documentary",
+    caption: "Documentary footage capturing daily acrobatics rehearsals and life transformation on soil training grounds.",
+    category: "Training",
+    mediaUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     orderIndex: 3,
-    isFeatured: false,
+    isFeatured: true,
     isPublished: true,
   },
   {
     id: "gal-4",
     assetType: "image",
-    title: "Troupe Black Lioness Antipode Artistry",
-    caption: "All-female powerhouse balance and antipode performance.",
-    category: "Artist Portraits",
-    mediaUrl: "/images/troupe_black_lioness.png",
+    title: "Arba Minch Grassroots Training Ground",
+    caption: "The earthen training hall in Mehal Ketema where over 80 youth practice daily on soil floors and donated mattresses.",
+    category: "Facility",
+    mediaUrl: "/images/circus_facility_3.png",
     orderIndex: 4,
-    isFeatured: true,
+    isFeatured: false,
     isPublished: true,
   },
   {
     id: "gal-5",
     assetType: "image",
-    title: "Arba Minch Yoga Brothers Official Portrait",
-    caption: "Official portrait of the extreme contortion duo.",
-    category: "Artist Portraits",
+    title: "Arba Minch Yoga Brothers Ensemble Portrait",
+    caption: "Samuel Filto and Dagmawi Babena, celebrating extreme contortion and human biomechanics.",
+    category: "Troupes",
     mediaUrl: "/images/troupe_yoga_brothers.png",
     orderIndex: 5,
     isFeatured: true,
@@ -351,11 +351,33 @@ let inMemoryGallery: GalleryAsset[] = [
   {
     id: "gal-6",
     assetType: "image",
-    title: "Troupe Gamo Bayira Artist Portrait",
-    caption: "Official portrait of Troupe Gamo Bayira acrobat.",
-    category: "Artist Portraits",
-    mediaUrl: "/images/troupe_gamo_bayira.png",
+    title: "Troupe Black Lioness All-Female Ensemble",
+    caption: "Official portrait of Troupe Black Lioness all-female balance and antipode artistry.",
+    category: "Troupes",
+    mediaUrl: "/images/troupe_black_lioness.png",
     orderIndex: 6,
+    isFeatured: true,
+    isPublished: true,
+  },
+  {
+    id: "gal-7",
+    assetType: "image",
+    title: "Troupe Gamo Bayira Highland Acrobats",
+    caption: "Official portrait of Troupe Gamo Bayira highland acrobats and object manipulation team.",
+    category: "Troupes",
+    mediaUrl: "/images/troupe_gamo_bayira.png",
+    orderIndex: 7,
+    isFeatured: true,
+    isPublished: true,
+  },
+  {
+    id: "gal-8",
+    assetType: "video",
+    title: "Gamo Highland Cultural Gala Highlights",
+    caption: "Live performance excerpts featuring giant walking puppets and traditional Gamo music fusion.",
+    category: "Events",
+    mediaUrl: "https://vimeo.com/76979871",
+    orderIndex: 8,
     isFeatured: true,
     isPublished: true,
   },
@@ -1378,6 +1400,40 @@ export async function toggleHighlightPublish(id: string) {
 // ---------------------------------------------------------------------
 // 6. GALLERY ASSETS CRUD
 // ---------------------------------------------------------------------
+
+export async function getGalleryAssets(): Promise<GalleryAsset[]> {
+  const supabase = createServerSupabaseClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("gallery_assets")
+        .select("*")
+        .eq("is_published", true)
+        .order("order_index", { ascending: true });
+      if (!error && data) {
+        return data.map((g: any) => ({
+          id: g.id,
+          assetType: g.asset_type,
+          title: g.title,
+          caption: g.caption,
+          category: g.category,
+          mediaUrl: g.media_url,
+          thumbnailUrl: g.thumbnail_url,
+          durationSeconds: g.duration_seconds,
+          width: g.width,
+          height: g.height,
+          orderIndex: g.order_index,
+          isFeatured: g.is_featured,
+          isPublished: g.is_published,
+          createdAt: g.created_at,
+        }));
+      }
+    } catch {
+      // Fallback
+    }
+  }
+  return inMemoryGallery.filter((g) => g.isPublished !== false);
+}
 
 export async function getAllGalleryAssetsForAdmin(): Promise<GalleryAsset[]> {
   const supabase = createAdminSupabaseClient() || createServerSupabaseClient();

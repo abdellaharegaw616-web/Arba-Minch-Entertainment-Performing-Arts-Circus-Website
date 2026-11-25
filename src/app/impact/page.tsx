@@ -2,11 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { getImpactStories } from "@/lib/data-store";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { ArrowRight, CheckCircle2, ShieldCheck, HeartHandshake } from "lucide-react";
+import { ArrowRight, CheckCircle2, ShieldCheck, HeartHandshake, Shield } from "lucide-react";
 import { CallToAction } from "@/components/ui/CallToAction";
 
 export const metadata = {
-  title: "Social Impact & Community Development — AMEPAC",
+  title: "Social Impact & Youth Empowerment — AMEPAC Arba Minch",
   description:
     "Explore how AMEPAC and Building Tomorrow Integrated Youth transform the lives of street children, enforce regular schooling, and empower female acrobats in Arba Minch, Ethiopia.",
 };
@@ -18,11 +18,12 @@ export default async function ImpactPage() {
     <div className="bg-[#F7F3EA] text-[#17251F] min-h-screen">
       <Breadcrumbs items={[{ label: "Social Impact" }]} />
 
+      {/* Header Banner */}
       <section className="bg-[#17251F] text-[#F7F3EA] py-14 sm:py-16 border-b border-[#23382F]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-4">
             <span className="text-xs font-bold text-[#D6A84F] uppercase tracking-wider px-3 py-1 rounded bg-[#23382F] border border-[#D6A84F]/30 inline-block">
-              Measurable Change
+              Measurable Change & Community Healing
             </span>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#F7F3EA]">
               Social Impact & Youth Empowerment
@@ -30,6 +31,23 @@ export default async function ImpactPage() {
             <p className="text-base sm:text-lg text-[#F7F3EA]/85 leading-relaxed font-light">
               AMEPAC is more than a stage spectacle—it is an engine of social healing and economic resilience for street youth and vulnerable families in Arba Minch.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Ethical Safeguarding Declaration Banner */}
+      <section className="bg-[#D6A84F]/10 border-b border-[#D6A84F]/30 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-start gap-3 text-xs text-[#17251F]">
+            <Shield className="w-4 h-4 text-[#C64B24] shrink-0 mt-0.5" />
+            <div>
+              <strong className="font-bold text-[#C64B24]">
+                Ethical Safeguarding & Minor Protection Charter:{" "}
+              </strong>
+              <span>
+                All social impact accounts document genuine community transformation while honoring participant dignity and agency. Narratives and photographs of youth and former street children are published exclusively under verified parental, guardian, or institutional consent, strictly avoiding exploitative or humiliating framing.
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -44,24 +62,25 @@ export default async function ImpactPage() {
                 className="bg-[#EBE5D6] rounded-2xl border border-[#D6A84F]/40 overflow-hidden flex flex-col justify-between hover:border-[#C64B24] transition-all group shadow-sm"
               >
                 <div>
-                  <div className="relative h-52 bg-[#17251F]">
+                  <div className="relative h-56 bg-[#17251F]">
                     <Image
                       src={story.heroImage}
                       alt={story.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
-                    <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded bg-[#17251F]/90 text-[10px] text-[#D6A84F] font-semibold border border-[#D6A84F]/30">
+                    <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded bg-[#17251F]/90 text-[10px] text-[#D6A84F] font-bold border border-[#D6A84F]/30">
                       {story.category}
                     </div>
                   </div>
                   <div className="p-6 space-y-3">
-                    <h3 className="font-bold text-lg text-[#17251F] group-hover:text-[#C64B24] transition-colors">
+                    <h3 className="font-extrabold text-lg text-[#17251F] group-hover:text-[#C64B24] transition-colors">
                       <Link href={`/impact/${story.slug}`}>
                         {story.title}
                       </Link>
                     </h3>
-                    <p className="text-xs text-[#17251F]/80 leading-relaxed font-medium">
+                    <p className="text-xs text-[#17251F]/80 leading-relaxed font-semibold">
                       {story.subtitle}
                     </p>
                     <p className="text-xs text-[#17251F]/70 line-clamp-3 leading-relaxed">

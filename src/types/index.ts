@@ -63,6 +63,7 @@ export interface EventItem {
   title: string;
   date: string;
   time: string;
+  timezone?: string;
   location: string;
   venue: string;
   category: string;
@@ -71,6 +72,8 @@ export interface EventItem {
   isUpcoming: boolean;
   featured?: boolean;
   isPublished?: boolean;
+  imageUrl?: string;
+  isProvisional?: boolean;
 }
 
 export interface HighlightItem {
