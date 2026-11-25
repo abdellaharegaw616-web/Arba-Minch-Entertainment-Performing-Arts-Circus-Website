@@ -107,8 +107,9 @@ export async function requireAdminSession(allowedRoles?: Array<"super_admin" | "
 
 /**
  * Server Action authorization guard. Throws error if unauthorized.
+ * Returns the verified AdminUser object.
  */
-export async function verifyAdminAction(allowedRoles?: Array<"super_admin" | "editor" | "moderator">) {
+export async function verifyAdminAction(allowedRoles?: Array<"super_admin" | "editor" | "moderator">): Promise<AdminUser> {
   const session = await getAdminSession();
 
   if (!session.authenticated || !session.user) {
@@ -119,7 +120,7 @@ export async function verifyAdminAction(allowedRoles?: Array<"super_admin" | "ed
     throw new Error("Forbidden: You do not possess the required permissions for this action.");
   }
 
-  return session;
+  return session.user;
 }
 
 /**

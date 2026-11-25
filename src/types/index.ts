@@ -9,6 +9,32 @@ export interface Troupe {
   members: string[];
   featuredImage?: string;
   featured?: boolean;
+  isPublished?: boolean;
+  orderIndex?: number;
+}
+
+export interface Artist {
+  id: string;
+  slug: string;
+  fullName: string;
+  stageName?: string;
+  bio?: string;
+  photoUrl?: string;
+  disciplines: string[];
+  isCoach: boolean;
+  isActive: boolean;
+  createdAt?: string;
+}
+
+export interface TroupeMember {
+  id: string;
+  troupeId: string;
+  artistId: string;
+  artistName?: string;
+  artistPhoto?: string;
+  roleInTroupe: string;
+  isLead: boolean;
+  orderIndex: number;
 }
 
 export interface ServicePackage {
@@ -20,6 +46,8 @@ export interface ServicePackage {
   description: string;
   details: string[];
   imageUrl?: string;
+  isPublished?: boolean;
+  orderIndex?: number;
 }
 
 export interface EventItem {
@@ -35,6 +63,7 @@ export interface EventItem {
   ticketInfo: string;
   isUpcoming: boolean;
   featured?: boolean;
+  isPublished?: boolean;
 }
 
 export interface HighlightItem {
@@ -44,6 +73,25 @@ export interface HighlightItem {
   caption: string;
   category: string;
   imageUrl?: string;
+  isPublished?: boolean;
+  orderIndex?: number;
+}
+
+export interface GalleryAsset {
+  id: string;
+  assetType: 'image' | 'video';
+  title: string;
+  caption?: string;
+  category: string;
+  mediaUrl: string;
+  thumbnailUrl?: string;
+  durationSeconds?: number;
+  width?: number;
+  height?: number;
+  orderIndex: number;
+  isFeatured: boolean;
+  isPublished: boolean;
+  createdAt?: string;
 }
 
 export interface TestimonialItem {
@@ -53,6 +101,49 @@ export interface TestimonialItem {
   role: string;
   organization?: string;
   year?: string;
+  isApproved?: boolean;
+  orderIndex?: number;
+}
+
+export interface FundraisingCampaign {
+  id: string;
+  slug: string;
+  title: string;
+  goalAmount?: number;
+  currency: string;
+  summary: string;
+  description: string;
+  targetUse: string;
+  externalDonationUrl?: string;
+  isActive: boolean;
+  isFeatured: boolean;
+  createdAt?: string;
+}
+
+export interface SiteSettings {
+  key: string;
+  organizationName: string;
+  parentOrganizationName: string;
+  circusEstablishedYear: number;
+  parentOrgRegisteredDate: string;
+  physicalLocation: string;
+  primaryPhone: string;
+  primaryEmail: string;
+  socialLinks: Record<string, string>;
+  metaDescription?: string;
+  updatedAt?: string;
+}
+
+export interface AuditLogEntry {
+  id: string;
+  adminId?: string;
+  adminEmail: string;
+  action: string;
+  entityType: string;
+  entityId?: string;
+  details?: Record<string, any>;
+  ipAddress?: string;
+  createdAt: string;
 }
 
 export interface BookingFormData {
@@ -73,6 +164,6 @@ export interface InquiryFormData {
   email: string;
   phone?: string;
   organization?: string;
-  inquiryType: 'donation' | 'partnership' | 'training_center_fund' | 'general';
+  inquiryType: 'donation' | 'partnership' | 'training_center_fund' | 'general' | 'contact';
   message: string;
 }

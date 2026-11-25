@@ -422,6 +422,25 @@ create trigger set_site_settings_updated_at
     for each row execute function public.handle_updated_at();
 
 -- ---------------------------------------------------------------------
+-- 11.5. ADMINISTRATIVE AUDIT TRAIL
+-- ---------------------------------------------------------------------
+create table if not exists public.audit_logs (
+    id uuid primary key default gen_random_uuid(),
+    admin_id uuid references public.admin_profiles(id) on delete set null,
+    admin_email text not null,
+    action text not null,
+    entity_type text not null,
+    entity_id text,
+    details jsonb default '{}'::jsonb,
+    ip_address text,
+    created_at timestamptz not null default timezone('utc'::text, now())
+);
+
+create index if not exists idx_audit_logs_action on public.audit_logs(action);
+create index if not exists idx_audit_logs_entity on public.audit_logs(entity_type, entity_id);
+create index if not exists idx_audit_logs_created on public.audit_logs(created_at desc);
+
+-- ---------------------------------------------------------------------
 -- 12. ROW LEVEL SECURITY (RLS) POLICIES
 -- ---------------------------------------------------------------------
 alter table public.admin_profiles enable row level security;
@@ -438,6 +457,15 @@ alter table public.bookings enable row level security;
 alter table public.inquiries enable row level security;
 alter table public.fundraising_campaigns enable row level security;
 alter table public.site_settings enable row level security;
+alter table public.audit_logs enable row level security;
+
+create policy "audit_logs_select_admin" on public.audit_logs
+    for select to authenticated
+    using (public.is_admin());
+
+create policy "audit_logs_insert_admin" on public.audit_logs
+    for insert to authenticated
+    with check (public.is_admin());
 
 -- Admin Profiles Policies
 create policy "admin_profiles_read_own_or_admin"

@@ -12,6 +12,8 @@ export interface ImpactStory {
     text: string;
     author: string;
   };
+  isPublished?: boolean;
+  orderIndex?: number;
 }
 
 export const IMPACT_STORIES: ImpactStory[] = [
